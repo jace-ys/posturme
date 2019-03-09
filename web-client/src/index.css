@@ -1,0 +1,14 @@
+html, body {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+a.ui {
+  margin: 10px 0 !important;
+}
+
+.ui.active.indicating.progress {
+  margin: 20px 0;
+}
