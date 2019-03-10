@@ -3,6 +3,13 @@ html, body {
   width: 100vw;
   margin: 0;
   padding: 0;
+  background-color: #525f7f !important;
+  color: #ffffff !important;
+}
+
+.ui.secondary.pointing.menu a {
+  color: #ffffff !important;
+  /* 5efff7 */
 }
 
 a.ui {

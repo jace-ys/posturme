@@ -3,7 +3,7 @@ import { Container, Progress, Card } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import socketIOClient from 'socket.io-client';
 
-const MAX_TIME = 20;
+const MAX_TIME = 3600;
 
 export default class Main extends Component {
   state = {
@@ -12,12 +12,21 @@ export default class Main extends Component {
     multiplierCount: 0,
     multiplier: 1,
     percentage: 0,
-    score: 0,
+    points: 0,
     triggerCount: 0
   }
 
   endSession = () => {
-
+    fetch('/', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        points: 5000,
+        percentage: Math.random().toFixed(2) * 100
+      })
+    })
+    .then(res => res.json())
+    .then(json => console.log(json));
   }
 
   componentDidMount() {
@@ -33,7 +42,7 @@ export default class Main extends Component {
       if (flexValue) {
         this.setState({
           previous: true,
-          score: this.state.score + (100 * this.state.multiplier),
+          points: this.state.points + (100 * this.state.multiplier),
           percentage: this.state.percentage + (100 * 1/MAX_TIME),
           triggerCount: 0
         });
@@ -56,7 +65,7 @@ export default class Main extends Component {
       }
 
       this.setState({
-        time: this.state.time - 1,
+        time: this.state.time - 60,
         multiplier: computeMultiplier(this.state.multiplierCount),
       });
     });
@@ -67,7 +76,7 @@ export default class Main extends Component {
   }
 
   render() {
-    const { time, score, percentage, multiplier } = this.state;
+    const { time, points, percentage, multiplier } = this.state;
 
     if (time === 0) {
       this.socket.close();
@@ -80,21 +89,21 @@ export default class Main extends Component {
         <h3 style={{ margin: '0' }}>Percentage: {percentage}%</h3>
         <h5 style={{ margin: '0' }}>Hit 100% for double points!</h5>
         <Progress percent={percentage} indicating/>
-        <h3 style={{ margin: '10px 0' }}>Remaining time: {time}</h3>
-        <Card style={{ margin: '60px auto' }}>
+        <h3 style={{ margin: '10px 0' }}>Remaining time: {time / 60} mins</h3>
+        <Card style={{ margin: '40px auto' }}>
           <Card.Content>
             <Card.Header>
-              <h1>Score</h1>
+              <h1>Points</h1>
             </Card.Header>
             <Card.Description>
-              <h1 style={{ fontSize: '40px' }}>{score}</h1>
+              <h1 style={{ fontSize: '40px' }}>{points}</h1>
             </Card.Description>
           </Card.Content>
           <Card.Content extra>
             <h3>Multiplier: {multiplier}x</h3>
           </Card.Content>
         </Card>
-        <Link to="/" className="ui button red fluid">End Session</Link>
+        <Link to="/" className="ui button teal fluid" onClick={this.endSession}>End Session</Link>
       </Container>
     );
   }

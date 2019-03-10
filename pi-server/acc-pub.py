@@ -1,9 +1,8 @@
 import time
-
 from google.cloud import pubsub_v1
 
-project_id = "ichealthhack19"
-topic_name = "acel-sensor"
+project_id = 'ichealthhack19'
+topic_name = 'acel-sensor'
 
 publisher = pubsub_v1.PublisherClient()
 topic_path = publisher.topic_path(project_id, topic_name)
@@ -30,5 +29,3 @@ print('Published message IDs:')
 # messages in the background.
 while True:
     time.sleep(60)
-
-sys.exit(1)
