@@ -18,22 +18,14 @@ redisClient.on('error', (err) => {
   console.log(`[Cloud Stream] PubClient error occurred: ${err}`);
 });
 
-const flexHandler = message => {
-  console.log(`Flex: ${message.data}`);
+const pubsubHandler = message => {
+  console.log(`New data received from Google Cloud: ${message.data}`);
   message.ack();
   redisClient.publish('cloud-stream', message.data);
 };
 
-const acelHandler = message => {
-  console.log(`Acel: ${message.data}`);
-  message.ack();
-  redisClient.publish('cloud-stream', message.data);
-}
-
-const flexSub = pubsub.subscription('flex-sub');
-const acelSub = pubsub.subscription('acel-sub');
-flexSub.on('message', flexHandler);
-acelSub.on('message', acelHandler);
+const posturmeSub = pubsub.subscription('posturme-sub');
+posturmeSub.on('message', pubsubHandler);
 
 const port = 80;
 app.listen(port, () => {

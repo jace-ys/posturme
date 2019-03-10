@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default class Main extends Component {
   state = {
-    totalPoints: 0
+    totalPoints: null
   }
 
   componentDidMount() {

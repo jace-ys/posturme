@@ -7,9 +7,12 @@ html, body {
   color: #ffffff !important;
 }
 
+.ui.secondary.pointing.menu {
+  border-bottom: 2px solid rgba(255,255,255,0.4) !important;
+}
+
 .ui.secondary.pointing.menu a {
   color: #ffffff !important;
-  /* 5efff7 */
 }
 
 a.ui {
@@ -18,4 +21,16 @@ a.ui {
 
 .ui.active.indicating.progress {
   margin: 20px 0;
+}
+
+td.good {
+  color: green;
+}
+
+td.bad {
+  color: red;
+}
+
+td.average {
+  color: orange;
 }

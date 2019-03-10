@@ -7,8 +7,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let user = {
-  totalPoints: 0,
-  percentageHistory: []
+  totalPoints: 20000,
+  history: []
 }
 
 app.get('/points', (req, res) => {
@@ -16,15 +16,22 @@ app.get('/points', (req, res) => {
 });
 
 app.get('/history', (req, res) => {
-  res.json({ percentageHistory: user.percentageHistory });
+  res.json({ history: user.history });
 });
 
 app.post('/', (req, res) => {
-  user = {
-    ...user,
-    totalPoints: user.totalPoints += req.body.points,
-    percentageHistory: [...user.percentageHistory, req.body.percentage]
+  const newEntry = {
+    percentage: req.body.percentage,
+    flexScore: req.body.sensorScores.flexScore,
+    zValueScore: req.body.sensorScores.zValueScore,
+    xValueScore: req.body.sensorScores.xValueScore
   }
+
+  user = {
+    totalPoints: user.totalPoints += req.body.points,
+    history: [...user.history, newEntry]
+  }
+
   res.json({ user: user });
 });
 
